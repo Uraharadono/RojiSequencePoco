@@ -40,7 +40,8 @@ namespace Core5ApiBoilerplate.Services.Blog
             {
                 var ctx = _uow.Context as Net5BoilerplateContext;
                 ctx.Blogs.Add(new() { Url = dto.Url });
-                _uow.Commit();
+                // _uow.Commit(); // doesn't work
+                ctx.SaveChanges(); // doesn't work, either
 
                 return dto;
             }
