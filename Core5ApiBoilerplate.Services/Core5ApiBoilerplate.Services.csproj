@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.7.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core5ApiBoilerplate.DbContext\Core5ApiBoilerplate.DbContext.csproj" />
+    <ProjectReference Include="..\Core5ApiBoilerplate.Infrastructure\Core5ApiBoilerplate.Infrastructure.csproj" />
+    <ProjectReference Include="..\Core5ApiBoilerplate.Utility\Core5ApiBoilerplate.Utility.csproj" />
+  </ItemGroup>
+
+</Project>
