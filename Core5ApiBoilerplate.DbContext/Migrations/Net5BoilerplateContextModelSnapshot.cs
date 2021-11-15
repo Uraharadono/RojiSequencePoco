@@ -23,9 +23,28 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
                 .StartsAt(100L)
                 .HasMin(100L);
 
+            modelBuilder.Entity("Core5ApiBoilerplate.DbContext.Entities.Author", b =>
+                {
+                    b.Property<long>("Oid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("ApplicationUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Oid");
+
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique();
+
+                    b.ToTable("Author");
+                });
+
             modelBuilder.Entity("Core5ApiBoilerplate.DbContext.Entities.Blog", b =>
                 {
                     b.Property<long>("Oid")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasDefaultValueSql("NEXT VALUE FOR BlogSeq");
 
@@ -252,7 +271,9 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
             modelBuilder.Entity("Core5ApiBoilerplate.DbContext.Entities.Post", b =>
                 {
                     b.Property<long>("Oid")
-                        .HasColumnType("bigint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
@@ -271,6 +292,17 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
                     b.HasIndex("BlogOid");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Core5ApiBoilerplate.DbContext.Entities.Author", b =>
+                {
+                    b.HasOne("Core5ApiBoilerplate.DbContext.Entities.Identity.ApplicationUser", "ApplicationUser")
+                        .WithOne("Author")
+                        .HasForeignKey("Core5ApiBoilerplate.DbContext.Entities.Author", "ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Core5ApiBoilerplate.DbContext.Entities.Identity.ApplicationRoleClaim", b =>
@@ -336,6 +368,11 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
             modelBuilder.Entity("Core5ApiBoilerplate.DbContext.Entities.Blog", b =>
                 {
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("Core5ApiBoilerplate.DbContext.Entities.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("Author");
                 });
 #pragma warning restore 612, 618
         }

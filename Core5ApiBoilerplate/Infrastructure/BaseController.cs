@@ -32,12 +32,6 @@ namespace Core5ApiBoilerplate.Infrastructure
         public IUnitOfWork UnitOfWork { get; set; }
 
         [NonAction]
-        protected IRepository<T> Repository<T>() where T : class, IEntity
-        {
-            return UnitOfWork.Repository<T>();
-        }
-
-        [NonAction]
         protected void Commit()
         {
             UnitOfWork.Commit();

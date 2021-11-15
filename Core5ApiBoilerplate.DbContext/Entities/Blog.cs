@@ -8,8 +8,7 @@ namespace Core5ApiBoilerplate.DbContext.Entities
     public class Blog : IEntity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        // [Index(IsUnique = true)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Oid { get; set; }
         public string Url { get; set; }
 

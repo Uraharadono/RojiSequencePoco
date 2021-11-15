@@ -16,7 +16,7 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
                 name: "Blogs",
                 columns: table => new
                 {
-                    Oid = table.Column<long>(type: "bigint", nullable: false),
+                    Oid = table.Column<long>(type: "bigint", nullable: false, defaultValueSql: "NEXT VALUE FOR BlogSeq"),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -73,7 +73,8 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    Oid = table.Column<long>(type: "bigint", nullable: false),
+                    Oid = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BlogId = table.Column<int>(type: "int", nullable: false),
@@ -107,6 +108,25 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
                         name: "FK_RoleClaims_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Author",
+                columns: table => new
+                {
+                    Oid = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationUserId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Author", x => x.Oid);
+                    table.ForeignKey(
+                        name: "FK_Author_Users_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -197,6 +217,12 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Author_ApplicationUserId",
+                table: "Author",
+                column: "ApplicationUserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_BlogOid",
                 table: "Posts",
                 column: "BlogOid");
@@ -239,27 +265,13 @@ namespace Core5ApiBoilerplate.DbContext.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-
-            migrationBuilder.Sql(@"
-                    INSERT INTO [BloggingDb].[dbo].[Blogs]
-                    VALUES 
-                    (0, 'Blog 0'), -- this will break everything
-                    (1, 'Blog 1'),
-                    (2, 'Blog 2'),
-                    (3, 'Blog 3'),
-                    (4, 'Blog 4'),
-                    (5, 'Blog 5'),
-                    (6, 'Blog 6'),
-                    (7, 'Blog 7'),
-                    (8, 'Blog 8'),
-                    (9, 'Blog 9'),
-                    (10, 'Blog 10')
-            ");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Author");
+
             migrationBuilder.DropTable(
                 name: "Posts");
 

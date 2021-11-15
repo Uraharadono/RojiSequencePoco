@@ -295,18 +295,6 @@ namespace Core5ApiBoilerplate.Infrastructure.Repository
         }
 
         /// <summary>
-        ///     Gets the repository of <typeparamref name="T" /> of the database.
-        /// </summary>
-        /// <typeparam name="T">The entity type</typeparam>
-        /// <returns>
-        ///     The repository
-        /// </returns>
-        public IRepository<T> Repository<T>() where T : class, IEntity
-        {
-            return new Repository<T>(this);
-        }
-
-        /// <summary>
         ///     Gets the queryable of <typeparamref name="T" /> of the database.
         /// </summary>
         /// <typeparam name="T">The entity type</typeparam>

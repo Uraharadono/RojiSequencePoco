@@ -46,7 +46,6 @@ namespace Core5ApiBoilerplate.Infrastructure
             builder.Register(c => new UnitOfWork(Net5BoilerplateContext.Create(connection, settings.OrganizationType)))
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
 
             // TODO: // Emails 
@@ -83,8 +82,7 @@ namespace Core5ApiBoilerplate.Infrastructure
         {
             var interfaces = t.GetInterfaces();
             var injectable = interfaces.Any(i => 
-                i.IsAssignableFrom(typeof(IService)) ||
-                i.IsAssignableFrom(typeof(IRepository))
+                i.IsAssignableFrom(typeof(IService))
             );
             return injectable;
         }

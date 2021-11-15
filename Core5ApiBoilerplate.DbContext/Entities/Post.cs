@@ -7,7 +7,7 @@ namespace Core5ApiBoilerplate.DbContext.Entities
     public class Post : IEntity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Oid { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }

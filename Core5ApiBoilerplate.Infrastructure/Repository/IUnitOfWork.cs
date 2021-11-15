@@ -22,7 +22,6 @@ namespace Core5ApiBoilerplate.Infrastructure.Repository
         Task CommitAsync();
         Task CommitAsync(bool skipCacheUpdate);
 
-        IRepository<T> Repository<T>() where T : class, IEntity;
         IQueryable<T> Query<T>() where T : class, IEntity;
         IQueryable<T> Query<T>(Expression<Func<T, bool>> filter) where T : class, IEntity;
         IQueryable<T> GetQueryable<T>() where T : class, IEntity;
